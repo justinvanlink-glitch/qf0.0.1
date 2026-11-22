@@ -1,0 +1,38 @@
+{
+  "db_path": "securetest.db",
+  "organization": {
+    "name": "QuizForge",
+    "logo": "assets/logo.png",
+    "accent_color": "#00a9e0"
+  },
+  "allowed_domains": [],
+  "smtp": {
+    "host": "smtp.example.com",
+    "port": 587,
+    "security": "starttls",
+    "username": "",
+    "password": "",
+    "from_address": "noreply@example.com",
+    "from_name": "QuizForge"
+  },
+  "report_recipients": [],
+  "send_copy_to_student": false,
+  "otp_ttl_minutes": 10,
+  "otp_max_failed": 10,
+  "otp_resend_cooldown_sec": 60,
+  "otp_max_requests_per_hour": 5,
+  "partial_credit": false,
+  "show_score_to_student": false,
+  "screenshot_interval_sec": 45,
+  "screenshot_quality": 70,
+  "process_blacklist": [
+    "AnyDesk.exe",
+    "TeamViewer.exe",
+    "TeamViewer_Service.exe",
+    "tv_w32.exe",
+    "tv_x64.exe",
+    "RustDesk.exe",
+    "chrome_remote_desktop_host.exe"
+  ],
+  "admin_password_hash": ""
+}
