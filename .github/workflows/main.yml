@@ -1,0 +1,51 @@
+name: Portable Windows
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+      - name: Build Client
+        run: |
+          pyinstaller --noconfirm --onefile --windowed ^
+            --name QuizForge-Client ^
+            --add-data "assets;assets" ^
+            --add-data "client/ui;client/ui" ^
+            --add-data "fonts;fonts" ^
+            --hidden-import core ^
+            --collect-all PyQt6 ^
+            client/main.py
+      - name: Build Admin
+        run: |
+          pyinstaller --noconfirm --onefile --windowed ^
+            --name QuizForge-Admin ^
+            --add-data "assets;assets" ^
+            --add-data "client/ui;client/ui" ^
+            --add-data "fonts;fonts" ^
+            --hidden-import core ^
+            --collect-all PyQt6 ^
+            admin/main.py
+      - name: Package
+        run: |
+          mkdir portable
+          copy dist\QuizForge-Client.exe portable\
+          copy dist\QuizForge-Admin.exe portable\
+          copy config.json.example portable\config.json
+          copy README.md FIRST_RUN.md LICENSE portable\
+          xcopy /E /I /Y assets portable\assets
+      - uses: actions/upload-artifact@v4
+        with:
+          name: QuizForge-Portable-Windows
+          path: portable/
